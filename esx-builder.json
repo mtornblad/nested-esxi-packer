@@ -1,0 +1,14 @@
+{
+  "vcenter_server": "vc01.dclab.se",
+  "vcenter_username": "mattor@dclab.se",
+  "vcenter_password": "Sommar123!!",
+  "vcenter_datacenter": "mgmt-dc01",
+  "vcenter_cluster": "mgmt-cl01",
+  "vcenter_datastore": "mgmt-cl01-ds-vsan01",
+  "vcenter_network": "dclab-Public-subnet",
+  "vcenter_folder": "Packer",
+  "esxi_iso_path": "[ISO] VMware-VMvisor-Installer-9.1.1.0.25714478.x86_64.iso",
+  "packer_http_ip": "10.115.4.6",
+  "packer_http_port_min": "8080",
+  "packer_http_port_max": "8080"
+}

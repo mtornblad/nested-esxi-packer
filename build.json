@@ -1,0 +1,99 @@
+{
+  "variables": {
+    "vcenter_server": "",
+    "vcenter_username": "",
+    "vcenter_password": "",
+    "vcenter_datacenter": "",
+    "vcenter_cluster": "",
+    "vcenter_datastore": "",
+    "vcenter_network": "",
+    "vcenter_folder": "",
+    "esxi_iso_path": "",
+    "packer_http_ip": "",
+    "packer_http_port_min": "",
+    "packer_http_port_max": ""
+  },
+  "builders": [
+    {
+      "type": "vsphere-iso",
+      "vcenter_server": "{{ user `vcenter_server` }}",
+      "username": "{{ user `vcenter_username` }}",
+      "password": "{{ user `vcenter_password` }}",
+      "insecure_connection": true,
+      "datacenter": "{{ user `vcenter_datacenter` }}",
+      "cluster": "{{ user `vcenter_cluster` }}",
+      "datastore": "{{ user `vcenter_datastore` }}",
+      "folder": "{{ user `vcenter_folder` }}",
+      "vm_name": "Nested-ESXi-9.1.1",
+      "guest_os_type": "vmkernel9Guest",
+      "configuration_parameters": {
+        "vhv.enable": "TRUE"
+      },
+      "CPUs": 4,
+      "cpu_cores": 2,
+      "RAM": 8192,
+      "network_adapters": [
+        {
+          "network": "{{ user `vcenter_network` }}",
+          "network_card": "vmxnet3"
+        },
+        {
+          "network": "{{ user `vcenter_network` }}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "storage": [
+        {
+          "disk_size": 32768,
+          "disk_thin_provisioned": true
+        },
+        {
+          "disk_size": 24576,
+          "disk_thin_provisioned": true
+        },
+        {
+          "disk_size": 307200,
+          "disk_thin_provisioned": true
+        }
+      ],
+      "iso_paths": [
+        "{{ user `esxi_iso_path` }}"
+      ],
+      "http_directory": "http",
+      "http_ip": "{{ user `packer_http_ip` }}",
+      "http_port_min": "{{ user `packer_http_port_min` }}",
+      "http_port_max": "{{ user `packer_http_port_max` }}",
+      "boot_command": [
+        "<shift>O",
+        " ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter>"
+      ],
+      "boot_wait": "3s",
+      "ssh_username": "root",
+      "ssh_password": "VMware1!",
+      "ssh_timeout": "20m",
+      "export": {
+        "force": true,
+        "output_directory": "output-ovf"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/local.sh",
+      "destination": "/tmp/local.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/setup.sh"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "shell-local",
+      "inline": [
+        "python3 scripts/package_ova.py output-ovf/Nested-ESXi-9.0.ovf"
+      ]
+    }
+  ]
+}
