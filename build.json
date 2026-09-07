@@ -46,14 +46,6 @@
         {
           "disk_size": 32768,
           "disk_thin_provisioned": true
-        },
-        {
-          "disk_size": 24576,
-          "disk_thin_provisioned": true
-        },
-        {
-          "disk_size": 307200,
-          "disk_thin_provisioned": true
         }
       ],
       "iso_paths": [

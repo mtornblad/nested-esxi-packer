@@ -62,12 +62,12 @@ else
         VLAN=$(echo $VLAN|awk -F ' ' '{print $1}')
         SSH=$(echo $SSH|awk -F ' ' '{print $1}')
 
-        v300=$(esxcli --formatter=csv --format-param=fields='Size,Devfs Path' --format-param=show-header=false storage core device list|sort | tail -2 |head -1 | awk -F ',' '{print $2}'|cut -d/ -f5)
-        v24=$(esxcli --formatter=csv --format-param=fields='Size,Devfs Path' --format-param=show-header=false storage core device list|sort | tail -3 |head -1 | awk -F ',' '{print $2}'|cut -d/ -f5)
-        /bin/partedUtil setptbl /vmfs/devices/disks/${v300} gpt
-        /bin/partedUtil setptbl /vmfs/devices/disks/${v24} gpt
-        esxcli vsan storage tag add -d ${v300} -t capacityFlash
-        esxcli vsan network ipv4 add -i vmk0
+#        v300=$(esxcli --formatter=csv --format-param=fields='Size,Devfs Path' --format-param=show-header=false storage core device list|sort | tail -2 |head -1 | awk -F ',' '{print $2}'|cut -d/ -f5)
+#        v24=$(esxcli --formatter=csv --format-param=fields='Size,Devfs Path' --format-param=show-header=false storage core device list|sort | tail -3 |head -1 | awk -F ',' '{print $2}'|cut -d/ -f5)
+#        /bin/partedUtil setptbl /vmfs/devices/disks/${v300} gpt
+#        /bin/partedUtil setptbl /vmfs/devices/disks/${v24} gpt
+#        esxcli vsan storage tag add -d ${v300} -t capacityFlash
+#        esxcli vsan network ipv4 add -i vmk0
 
         #esxcli network ip dns server list
         esxcli network ip dns server add -s ${DNS_SERVER}

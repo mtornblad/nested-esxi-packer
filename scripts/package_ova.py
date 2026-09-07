@@ -12,8 +12,6 @@ def inject_ovf(ovf_path):
       <vmw:ExtraConfig ovf:required="false" vmw:key="disk.enableuuid" vmw:value="TRUE"/>
       <vmw:ExtraConfig ovf:required="false" vmw:key="msg.autoanswer" vmw:value="true"/>
       <vmw:ExtraConfig ovf:required="false" vmw:key="vhv.enable" vmw:value="TRUE"/>
-      <vmw:ExtraConfig ovf:required="false" vmw:key="scsi0:1.virtualSSD" vmw:value="true"/>
-      <vmw:ExtraConfig ovf:required="false" vmw:key="scsi0:2.virtualSSD" vmw:value="true"/>
     """
     ovf_content = ovf_content.replace('</VirtualHardwareSection>', f'{extra_config}\n    </VirtualHardwareSection>')
 
